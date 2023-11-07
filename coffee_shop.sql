@@ -64,11 +64,46 @@ values	('John Doe','johndoe@fazzmail.com','admin','Kenanga Street No.52, South J
 insert into "order" ("user_id","product_id","qty")
 values (3,1,1);
 
-select "product_name" as "product" from "products";
+alter table "order" rename to "orders";
+alter table "user" rename to "users";
 
-select "product_name","price" from "products";
-	
-	
-	
-	
+alter table "products" add column "createdAt" timestamp default now();
+alter table "products" add column "updatedAt" timestamp;
+
+alter table "products" drop column "product_category";
+
+alter table "products" alter column "price" set data type numeric(10,2);
+
+
+create table if not exists "categories"(
+	"category_id" serial primary key,
+	"category_name" varchar(30) not null,
+	"description" text,
+	"createdAt" timestamp default now(),
+	"updatedAt" timestamp
+);
+
+create table if not exists "productCategories"(
+	"id" serial primary key,
+	"product_id" int,
+	"category_id" int,
+	"createdAt" timestamp default now(),
+	"updatedAt" timestamp
+);
+
+alter table "categories" add column "promo_id" int references "promo" ("promo_id");
+alter table "productCategories" add foreign key ("product_id") references "products" ("product_id");
+alter table "productCategories" add foreign key ("category_id") references "categories" ("category_id");
+
+alter table "promo" rename column "promo_name" to "promo_kode";
+alter table "promo" add column "createdAt" timestamp default now(), add column "updatedAt" timestamp;
+
+alter table "promo" rename column "discount" to "percentage";
+
+update "promo" set "percentage" = 0.5 where "promo_id" = 1;
+update "promo" set "percentage" = 0.6 where "promo_id" = 2;
+alter table "promo" alter column "order_min" set data type numeric(10,2);
+alter table "promo" alter column "discount_max" set data type numeric(10,2);
+alter table "promo" alter column "order_min" set not null;
+alter table "promo" alter column "discount_max" set not null;
 	
