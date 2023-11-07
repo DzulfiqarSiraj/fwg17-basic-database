@@ -42,6 +42,9 @@ alter table "products"
 alter table "promo"
 alter column "discount" set data type float
 
+alter table "order"
+	add "promo_id" int;
+
 insert into "products" ("product_name", "price","product_category")
 values 	('V60 Arabica Gayo',18000,'beverage'),
 		('Vietnam Drip Robusta Temanggung', 15000,'beverage'),
@@ -60,6 +63,10 @@ values	('John Doe','johndoe@fazzmail.com','admin','Kenanga Street No.52, South J
 	
 insert into "order" ("user_id","product_id","qty")
 values (3,1,1);
+
+select "product_name" as "product" from "products";
+
+select "product_name","price" from "products";
 	
 	
 	
