@@ -106,4 +106,75 @@ alter table "promo" alter column "order_min" set data type numeric(10,2);
 alter table "promo" alter column "discount_max" set data type numeric(10,2);
 alter table "promo" alter column "order_min" set not null;
 alter table "promo" alter column "discount_max" set not null;
+
+delete from "products" where "product_id" between 1 and 4;
+alter table "products" add column "product_desc" text;
+
+insert into "products" ("product_name","price","product_desc")
+values  ('(Single Origin) Kopi Arabika Temanggung', 19500.00, 'Kopi Arabika pilihan terbaik dari daerah Temanggung.'),
+    ('Espresso Single Shot', 22000.00, 'Espresso klasik dengan rasa yang kuat.'),
+    ('Cappuccino', 23500.00, 'Minuman kopi dengan kombinasi espresso, susu, dan busa susu.'),
+    ('Caffe Latte', 21500.00, 'Kopi dengan susu panas dan sedikit foam.'),
+    ('(Single Origin) Kopi Robusta Lampung', 17500.00, 'Kopi Robusta berkualitas dari daerah Lampung.'),
+    ('Mocha', 24500.00, 'Perpaduan antara espresso, susu, dan cokelat.'),
+    ('Cold Brew', 19000.00, 'Kopi dingin dengan rasa yang lembut dan kaya.'),
+    ('(Single Origin) Kopi Gayo Aceh', 20000.00, 'Kopi Arabika organik terbaik dari Aceh.'),
+    ('Americano', 18500.00, 'Espresso dengan air panas, sederhana dan kuat.'),
+    ('Iced Latte', 22500.00, 'Minuman kopi dingin dengan susu.'),
+    ('(Single Origin) Kopi Flores', 21000.00, 'Kopi khas dari Pulau Flores dengan cita rasa khas.'),
+    ('Flat White', 23000.00, 'Kopi Australia yang lembut dengan rasa susu yang kaya.'),
+    ('(Single Origin) Kopi Toraja', 24000.00, 'Kopi Toraja premium dari Sulawesi.'),
+    ('Affogato', 25000.00, 'Espresso yang disiramkan ke atas es krim vanila.'),
+    ('(Single Origin) Kopi Luwak', 24500.00, 'Kopi khas Indonesia yang unik, dikumpulkan dari fermentasi di dalam kotoran musang.');
+
+insert into "products" ("product_name","price","product_desc")
+values ('Wasabi Almonds', 16000.00, 'Kacang almond dengan rasa wasabi yang pedas dan gurih.'),
+    ('Seaweed Popcorn', 17000.00, 'Popcorn dengan rasa rumput laut yang unik.'),
+    ('Sriracha Rice Crisps', 18000.00, 'Keripik beras dengan rasa pedas Sriracha.'),
+    ('Matcha Green Tea Cookies', 19000.00, 'Kue kering dengan rasa matcha yang lezat.'),
+    ('Salted Caramel Pecans', 20000.00, 'Kenari dengan karamel garam yang manis dan gurih.');
+
+insert into "categories" ("category_name","description")
+values ('snack','makanan ringan sebagai teman minum kopi'),
+	('beverage','minuman barbasis kopi dan lainnya');
+
+
+alter table "promo" rename column "promo_kode" to "promo_code";
+
+alter table "products" add column "category_id" int;
+
+insert into "productCategories" ("product_id","category_id")
+values (5,2),
+	(6,2),
+	(7,2),
+	(8,2),
+	(9,2),
+	(10,2),
+	(11,2),
+	(12,2),
+	(13,2),
+	(14,2),
+	(15,2),
+	(16,2),
+	(17,2),
+	(18,2),
+	(19,2),
+	(20,1),
+	(21,1),
+	(22,1),
+	(23,1),
+	(24,1);
+
+delete from "productCategories" where "id" between 1 and 7;
+
+insert into "categories" ("category_name","description")
+values ('main course','makanan utama yang padat komposisinya');
+
+select "p"."product_name", "p"."price", "c"."category_name" as "category"
+from "products" "p"
+join "productCategories" "pc" on "pc"."product_id" = "p"."product_id"
+right join "categories" "c" on "c"."category_id" = "pc"."category_id";
+
+delete from "orders" where "product_id" = 1;
+alter table "orders" add foreign key ("product_id") references "products" ("product_id");
 	
